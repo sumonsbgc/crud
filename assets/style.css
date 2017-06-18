@@ -1,0 +1,17 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+form.padding {
+  background-color: #ddd;
+  padding: 25px 25px;
+  margin: 70px 0px;
+}
+
+
+label{color:#000;}
+
+input.btn{
+	cursor: pointer;
+}
