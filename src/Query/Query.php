@@ -42,26 +42,45 @@ class Query
 	}
 */
 
-	public function store(array $data, $table = "model")
+	public function insert(array $data, $table = "model")
 	{
-		
-		$countValue = count($data);
-		
-		$sql = "INSERT INTO `{$table}`"; 
+		// You should bear in mind that your table's field names are equal to form field names
+		// other wise this method will not work.
+
+		$datakey = [];
+		$datavalue = [];
 
 		foreach ($data as $key => $value) {
-			$sql =. "(`{$key}`)";	
+			$datakey[] = $key;
+			$datavalue[] = $value;
 		}
+
+		array_pop($datakey);
+		array_pop($datavalue);
+
+		$countValue = count($datakey) - 1;
+
+		$sql = "INSERT INTO `{$table}`(";
 		
-		$sql =. " VALUES "; 
-		foreach ($data as $key => $value) {
-			$sql =. "('{$value}');";	
+		foreach ($datakey as $i => $key) {
+			if ($countValue == $i) {
+				$sql .= "`{$key}`";					
+			}else{
+				$sql .= "`{$key}`" . ",";	
+			}
 		}
 
+		$sql .=	") VALUES ("; 
+		foreach ($datavalue as $i => $value) {
+			if ($countValue == $i) {
+				$sql .= "'{$value}'";
+			}else{
+				$sql .= "'{$value}'" . ",";	
+			}
+		}
+		$sql .= ")";
 
-		echo $sql;
 
-/*		
 		$result = $this->conn->query($sql);
 		var_dump($result);
 		if($result)
@@ -70,7 +89,13 @@ class Query
 		}else{
 			echo "Data is not inserted.";
 		}
-*/
-	}	
+	}
+
+
+
+
+
+
+
 	
 }
