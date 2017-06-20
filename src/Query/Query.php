@@ -3,15 +3,15 @@
 class Query
 {
 	protected $conn;
-	public $fname = "";
+	/*public $fname = "";
 	public $lname = "";
 	public $email = "";
-	public $pass  = "";
+	public $pass  = "";*/
 
 	public function __construct()
 	{
 		if (!isset($this->conn)) {
-			$this->conn = new \mysqli("localhost", "root", "sumon", "crud") or die("Connection Fail!");	
+			$this->conn = new \mysqli("localhost", "root", "", "crud") or die("Connection Fail!");	
 		}
 
 		if (!$this->conn) {
@@ -42,7 +42,7 @@ class Query
 	}
 */
 
-	public function insert(array $data, $table = "model")
+	public function store(array $data, $table = "model")
 	{
 		// You should bear in mind that your table's field names are equal to form field names
 		// other wise this method will not work.
@@ -57,7 +57,59 @@ class Query
 
 		array_pop($datakey);
 		array_pop($datavalue);
+		$countValue = count($datakey) - 1;
 
+		$sql = "INSERT INTO `{$table}`(";
+		
+		foreach ($datakey as $i => $key) {
+			if ($countValue == $i) {
+				$sql .= "`{$key}`";					
+			}else{
+				$sql .= "`{$key}`" . ",";	
+			}
+		}
+
+		$sql .=	") VALUES ("; 
+		foreach ($datavalue as $i => $value) {
+			if ($countValue == $i) {
+				$sql .= "'{$value}'";
+			}else{
+				$sql .= "'{$value}'" . ",";	
+			}
+		}
+		$sql .= ")";
+		echo "<hr>";
+		echo $sql;
+		echo "<hr>";
+		$result = $this->conn->query($sql);
+		
+		if($result)
+		{
+			echo "Data inserted successfully.";
+		}else{
+			echo "Data is not inserted.";
+		}
+	}
+
+
+	public function insert(array $data, $table = "model")
+	{
+		
+		$select = "SELECT * FROM `$table`";
+		$selectResult = $this->conn->query($select);
+		$datakey = [];
+		$datavalue = [];
+
+		while ($field = mysqli_fetch_field($selectResult)) {
+			$datakey[] = $field->name;
+		}		
+
+		foreach ($data as $key => $value) {
+			$datavalue[] = $value;
+		}
+
+		array_shift($datakey);
+		array_pop($datavalue);
 		$countValue = count($datakey) - 1;
 
 		$sql = "INSERT INTO `{$table}`(";
@@ -80,22 +132,18 @@ class Query
 		}
 		$sql .= ")";
 
-
+		echo $sql;
+		echo "<hr>";
 		$result = $this->conn->query($sql);
-		var_dump($result);
+
 		if($result)
 		{
 			echo "Data inserted successfully.";
 		}else{
 			echo "Data is not inserted.";
 		}
+
+
 	}
 
-
-
-
-
-
-
-	
 }

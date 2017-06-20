@@ -16,7 +16,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		$pass = strip_tags(htmlentities(trim(stripslashes($_POST["pass"]))));
 		if ( !empty($fname) && !empty($lname) && !empty($email) && !empty($pass) ) {
 			echo "Hello I am $fname $lname. My email address is $email and password is $pass";
-			$model->store($_POST);
+			//$model->store($_POST);
+			$model->insert($_POST);
 		}else{
 			/*header("Location:index.php");*/
 			echo "fail";
