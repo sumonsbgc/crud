@@ -3,6 +3,11 @@
 	padding: 0;
 }
 
+
+.margin0auto{
+	margin: 0 auto;
+}
+
 form.padding {
   background-color: #ddd;
   padding: 25px 25px;

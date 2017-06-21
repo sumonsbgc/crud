@@ -11,7 +11,7 @@ class Query
 	public function __construct()
 	{
 		if (!isset($this->conn)) {
-			$this->conn = new \mysqli("localhost", "root", "", "crud") or die("Connection Fail!");	
+			$this->conn = new \mysqli("localhost", "root", "sumon", "crud") or die("Connection Fail!");	
 		}
 
 		if (!$this->conn) {
@@ -141,6 +141,45 @@ class Query
 			echo "Data inserted successfully.";
 		}else{
 			echo "Data is not inserted.";
+		}
+
+	}
+
+	public function selectAll($table = "model")
+	{
+		$sql = "SELECT * FROM `$table`";
+		$result = $this->conn->query($sql);
+		$data = [];
+
+		while($row = $result->fetch_object())
+		{	
+			$data[] = $row;
+		}
+
+		return $data;
+	}
+
+	public function selectBywhere(array $data, $table="model")
+	{
+		$sql = "SELECT * FROM `{$table}` WHERE";
+		
+		foreach ($data as $key => $value) {
+			$sql .= " `$key` = '{$value}'";
+		}
+		
+		$result = $this->conn->query($sql);
+		$row = $result->fetch_object();
+
+		return $row;
+	}
+
+	public function update($data, $table = 'model')
+	{
+
+
+		$sql = "UPDATE `{$table}` SET";
+		foreach ($data as $key => $value) {
+			$sql .= "`{$key}` = '{$value}'";
 		}
 
 

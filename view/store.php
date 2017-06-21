@@ -1,8 +1,6 @@
 <?php
 include "../vendor/autoload.php";
-
 use App\Query\Query;
-
 $model = new Query();
 
 
