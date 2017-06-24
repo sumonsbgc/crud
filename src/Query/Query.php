@@ -175,14 +175,14 @@ class Query
 
 	public function update($data, $table = 'model')
 	{
-
+		$select = "SELECT * FROM $table";
 
 		$sql = "UPDATE `{$table}` SET";
 		foreach ($data as $key => $value) {
 			$sql .= "`{$key}` = '{$value}'";
 		}
 
-
+		
 	}
 
 }
