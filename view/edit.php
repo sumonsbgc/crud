@@ -27,6 +27,9 @@
 			<div class="col-lg-6 offset-lg-3">
 				<form action="update.php" class="padding" method="post">
 					<div class="form-group">
+						<input type="hidden" name="id" value="<?php echo $data->id; ?>">
+					</div>
+					<div class="form-group">
 						<label for="fname">First Name</label>
 						<input name="fname" type="text" class="form-control" id="fname" value="<?php echo $data->fname; ?>">
 					</div>

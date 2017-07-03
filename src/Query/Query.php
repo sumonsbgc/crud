@@ -97,6 +97,7 @@ class Query
 		
 		$select = "SELECT * FROM `$table`";
 		$selectResult = $this->conn->query($select);
+
 		$datakey = [];
 		$datavalue = [];
 
@@ -110,6 +111,7 @@ class Query
 
 		array_shift($datakey);
 		array_pop($datavalue);
+
 		$countValue = count($datakey) - 1;
 
 		$sql = "INSERT INTO `{$table}`(";
@@ -132,8 +134,6 @@ class Query
 		}
 		$sql .= ")";
 
-		echo $sql;
-		echo "<hr>";
 		$result = $this->conn->query($sql);
 
 		if($result)
@@ -173,16 +173,40 @@ class Query
 		return $row;
 	}
 
-	public function update($data, $table = 'model')
+	public function update($data, $table = 'model', $where = null)
 	{
-		$select = "SELECT * FROM $table";
+		$datakey = [];
+		$datavalue = [];
 
-		$sql = "UPDATE `{$table}` SET";
+		$select = "SELECT * FROM $table";
+		$selRes = $this->conn->query($select);
+	
+		while($field = $selRes->fetch_field()){
+			$datakey[] = $field->name;
+		}
+		
+		foreach ($data as $key => $value) {
+			$datavalue[] = $value;
+		}
+		array_pop($datavalue);
+		
+				
+
+/*
+		echo "<pre>";
+		print_r($datakey);
+		print_r($datavalue);
+*/
+
+$sql = "UPDATE `model` SET `key1`='value1', `key2`='value2', `key3`='value3' WHERE `id` = '{$id}' ";
+		
+		/*$sql = "UPDATE `{$table}` SET";
 		foreach ($data as $key => $value) {
 			$sql .= "`{$key}` = '{$value}'";
-		}
+		}$sql .= "WHERE `id` = "*/
 
-		
+
+
+
 	}
-
 }
