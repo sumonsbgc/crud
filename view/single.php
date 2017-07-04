@@ -2,12 +2,14 @@
 include_once('../vendor/autoload.php');
 use App\Query\Query;
 $query = new Query();
-if (isset($_GET['id'])) {
-	if (!empty($_GET['id'])) {
-		$where = $_GET['id'];
+if(isset($_GET['id'])){
+	if(!empty($_GET['id'])){
+		$id = $_GET['id'];
 	}
 }
-$data = $query->selectBywhere('model', $where);
+
+$data = $query->selectByid('model', $id);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,6 +43,6 @@ $data = $query->selectBywhere('model', $where);
 				</div>
 			</div>
 		</div>
-	</div>		
+	</div>
 </body>
 </html>

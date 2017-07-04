@@ -159,28 +159,25 @@ class Query
 		return $data;
 	}
 
-	public function selectBywhere( $table, $where)
+	public function selectByid($table, $id)
 	{
+		$sql = "SELECT * FROM `{$table}` WHERE `id` = '{$id}'";
 		
-		if (is_array($where)) {
-			
-			$sql = "SELECT * FROM `{$table}` WHERE `id` = '{$where}'";
-			foreach ($data as $key => $value) {
+
+		/*if (is_array($where)) {
+			$sql = "SELECT * FROM `{$table}` WHERE `id` = '{$id}'";
+			foreach($data as $key => $value){
 				$sql .= " `$key` = '{$value}'";
 			}
-
 		}else{
-			$sql = "SELECT * FROM `{$table}` WHERE `id` = '{$where}'";
-		}
+		}*/
 		
 		$result = $this->conn->query($sql);
-		
 		$row = $result->fetch_object();
-
 		return $row;
 	}
 
-	public function update($data, $table = 'model', $where)
+	public function update($data, $table='model', $where)
 	{
 		$datakey = [];
 		$datavalue = [];
