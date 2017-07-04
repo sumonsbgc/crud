@@ -53,6 +53,7 @@
 								<a href="delete.php?id=<?php echo $data->id; ?>" class="btn btn-danger">
 									Delete
 								</a>
+								<a href="single.php?id=<?php echo $data->id; ?>" class="btn btn-warning">View</a>
 							</td>
 						</tr>
 						<?php endforeach; ?>

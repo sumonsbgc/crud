@@ -159,15 +159,22 @@ class Query
 		return $data;
 	}
 
-	public function selectBywhere(array $data, $table, $where)
+	public function selectBywhere( $table, $where)
 	{
-		$sql = "SELECT * FROM `{$table}` WHERE";
 		
-		foreach ($data as $key => $value) {
-			$sql .= " `$key` = '{$value}'";
+		if (is_array($where)) {
+			
+			$sql = "SELECT * FROM `{$table}` WHERE `id` = '{$where}'";
+			foreach ($data as $key => $value) {
+				$sql .= " `$key` = '{$value}'";
+			}
+
+		}else{
+			$sql = "SELECT * FROM `{$table}` WHERE `id` = '{$where}'";
 		}
 		
 		$result = $this->conn->query($sql);
+		
 		$row = $result->fetch_object();
 
 		return $row;
