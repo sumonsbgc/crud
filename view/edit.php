@@ -3,13 +3,12 @@
 	use App\Query\Query;
 	$query = new Query();
 	if (isset($_GET)) {
-		if (!empty($_GET)) {
-			$where[] = $_GET;			
+		if (!empty($_GET)){
+			$where[] = $_GET;
 		}
 	}
 	$data = $query->selectBywhere($_GET);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

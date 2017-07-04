@@ -159,7 +159,7 @@ class Query
 		return $data;
 	}
 
-	public function selectBywhere(array $data, $table="model")
+	public function selectBywhere(array $data, $table, $where)
 	{
 		$sql = "SELECT * FROM `{$table}` WHERE";
 		
@@ -173,10 +173,12 @@ class Query
 		return $row;
 	}
 
-	public function update($data, $table = 'model', $where = null)
+	public function update($data, $table = 'model', $where)
 	{
 		$datakey = [];
 		$datavalue = [];
+		$sqlValue = [];
+
 
 		$select = "SELECT * FROM $table";
 		$selRes = $this->conn->query($select);
@@ -188,25 +190,41 @@ class Query
 		foreach ($data as $key => $value) {
 			$datavalue[] = $value;
 		}
+
 		array_pop($datavalue);
 		
-				
+		if (count($datakey) == count($datavalue)) {
+			$sqlValue = array_combine($datakey, $datavalue);
+		}
 
-/*
+		array_shift($sqlValue);
+
 		echo "<pre>";
-		print_r($datakey);
-		print_r($datavalue);
-*/
+		print_r($sqlValue);
 
-$sql = "UPDATE `model` SET `key1`='value1', `key2`='value2', `key3`='value3' WHERE `id` = '{$id}' ";
+		$count = count($datakey);
+
+		$sql = "UPDATE `{$table}` SET ";
 		
-		/*$sql = "UPDATE `{$table}` SET";
-		foreach ($data as $key => $value) {
-			$sql .= "`{$key}` = '{$value}'";
-		}$sql .= "WHERE `id` = "*/
-
-
-
+		$i = 1;
+		foreach ($sqlValue as $key => $value) {
+			if ($count == $i){
+				$sql .= " `{$key}` = '{$value}' ";
+			}else{
+				$sql .= " `{$key}` = '{$value}' ". ",";
+			}
+			$i++;
+		}
+		$sql .= " WHERE `id` = {$where}";
+		echo $sql;
+die();
+		$res = $this->conn->query($sql);
+		
+		if($res){
+			header("Location: http://localhost/php/crud/view/index.php");
+		}else{
+			echo "Can't Update!";
+		}		
 
 	}
 }
