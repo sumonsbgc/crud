@@ -177,6 +177,15 @@ class Query
 		return $row;
 	}
 
+	public function selectByWhere($table = "model", array $where)
+	{
+		if (is_array($where)){
+			$count = count($where);
+			$sql = "SELECT * FROM `{$table}` WHERE `name` = 'sumon' AND `id` = '{$id}'";
+		}
+	}
+
+
 	public function update($data, $table='model', $where)
 	{
 		$datakey = [];
