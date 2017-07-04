@@ -217,7 +217,7 @@ class Query
 		}
 		$sql .= " WHERE `id` = {$where}";
 		echo $sql;
-die();
+
 		$res = $this->conn->query($sql);
 		
 		if($res){
