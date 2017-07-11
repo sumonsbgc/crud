@@ -12,11 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			//var_dump($_POST);
 			if (isset($_POST['id'])) {
 				if (!empty($_POST['id'])) {
-					$where = $_POST['id'];
+					$id = $_POST['id'];
+					$query->update($_POST, 'model', $id);
 				}
 			}
-			
-			$query->update($_POST, 'model', $where);
 		}
 	}
 }

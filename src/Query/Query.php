@@ -1,12 +1,9 @@
-<?php namespace App\Query;
+<?php 
+namespace App\Query;
 
 class Query
 {
 	protected $conn;
-	/*public $fname = "";
-	public $lname = "";
-	public $email = "";
-	public $pass  = "";*/
 
 	public function __construct()
 	{
@@ -20,27 +17,6 @@ class Query
 		}
 	}
 
-/*	public function prepare(array $data)
-	{
-		if(array_key_exists('fname', $data)) {
-			$this->fname = $data['fname'];
-		}
-
-		if (array_key_exists('lname', $data)) {
-			$this->lname = $data['lname'];
-		}
-
-		if (array_key_exists('email', $data)) {
-			$this->email = $data['email'];
-		}
-
-		if (array_key_exists('pass', $data)) {
-			$this->pass = $data['pass'];
-		}
-
-		return $this;
-	}
-*/
 
 	public function store(array $data, $table = "model")
 	{
@@ -78,9 +54,7 @@ class Query
 			}
 		}
 		$sql .= ")";
-		echo "<hr>";
-		echo $sql;
-		echo "<hr>";
+
 		$result = $this->conn->query($sql);
 		
 		if($result)
@@ -142,7 +116,6 @@ class Query
 		}else{
 			echo "Data is not inserted.";
 		}
-
 	}
 
 	public function selectAll($table = "model")
@@ -162,16 +135,6 @@ class Query
 	public function selectByid($table, $id)
 	{
 		$sql = "SELECT * FROM `{$table}` WHERE `id` = '{$id}'";
-		
-
-		/*if (is_array($where)) {
-			$sql = "SELECT * FROM `{$table}` WHERE `id` = '{$id}'";
-			foreach($data as $key => $value){
-				$sql .= " `$key` = '{$value}'";
-			}
-		}else{
-		}*/
-		
 		$result = $this->conn->query($sql);
 		$row = $result->fetch_object();
 		return $row;
@@ -186,7 +149,7 @@ class Query
 	}
 
 
-	public function update($data, $table='model', $where)
+	public function update($data, $table, $id)
 	{
 		$datakey = [];
 		$datavalue = [];
@@ -215,29 +178,53 @@ class Query
 		echo "<pre>";
 		print_r($sqlValue);
 
-		$count = count($datakey);
+		$count = count($datakey) - 1;
 
 		$sql = "UPDATE `{$table}` SET ";
 		
 		$i = 1;
 		foreach ($sqlValue as $key => $value) {
-			if ($count == $i){
-				$sql .= " `{$key}` = '{$value}' ";
+			if (  $count == $i ){
+				$sql .= " `{$key}` = '{$value}'";
 			}else{
-				$sql .= " `{$key}` = '{$value}' ". ",";
+				$sql .= " `{$key}` = '{$value}'".",";
 			}
 			$i++;
 		}
-		$sql .= " WHERE `id` = {$where}";
-		echo $sql;
 
+		$sql .= " WHERE `id` = {$id}";
+		echo $sql;
 		$res = $this->conn->query($sql);
-		
+
 		if($res){
 			header("Location: http://localhost/php/crud/view/index.php");
 		}else{
 			echo "Can't Update!";
-		}		
-
+		}
 	}
+
+
+	public function is_loggedin(array $where)
+	{
+		$sql = "SELECT * FROM `model` WHERE `email` ='{$where["email"]}' AND `pass`='{$where["pass"]}'";
+		$res = $this->conn->query($sql);
+		if( $res->num_rows > 0){
+			header("Location: index.php");
+		}else{
+			header("Location: login.php");
+		}
+
+		return true;
+	}
+
+
+
+
+
+
+
+
+
+
+
 }

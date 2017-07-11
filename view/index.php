@@ -2,7 +2,10 @@
 	include_once '../vendor/autoload.php';
 	use App\Query\Query;
 	$query = new Query();
+
 	$datalist = $query->selectAll();
+
+
 ?>
 
 <!DOCTYPE html>
